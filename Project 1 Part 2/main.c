@@ -46,16 +46,11 @@ int main(void){
 	
 	
 	while(1){
-		
-		distance =0;
 		done = 0;
+		distance =0;
 		
 		Trigger();
 		
-		Uart_SendString("Distance: ");
-		Uart_SendNumber(distance);
-		Uart_SendString("cm\r\n");
-	
 	}
 
 
@@ -71,7 +66,10 @@ void GPIOPortB_Handler(void){
 	}
 	else{
 		Stop_TimerB();
-		distance = (uint32_t)(Get_Elapsed_MC()*MC_LEN*SOUND_SPEED)/2;		
+		distance = (uint32_t)(Get_Elapsed_MC()*MC_LEN*SOUND_SPEED)/2;
+		Uart_SendString("Distance: ");
+		Uart_SendNumber(distance);
+		Uart_SendString("cm\r\n");		
 		done = 1;
 	
 	}

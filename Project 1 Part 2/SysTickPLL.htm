@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\SysTickPLL.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SysTickPLL.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Mon Sep 15 03:06:05 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Sat Sep 20 12:15:53 2025
 <BR><P>
 <H3>Maximum Stack Usage =         52 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-__rt_entry_main &rArr; main &rArr; Uart_SendNumber &rArr; Uart_Transmit
+GPIOPortB_Handler &rArr; Uart_SendNumber &rArr; Uart_Transmit
 <P>
 <H3>
 Functions with no stack information
@@ -689,8 +689,8 @@ Global Symbols
 <P><STRONG><a name="[c6]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[84]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; Uart_SendNumber &rArr; Uart_Transmit
+<BR><BR>[Stack]<UL><LI>Max Depth = 32 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; Trigger
 </UL>
 <BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -769,12 +769,14 @@ Global Symbols
 
 <P><STRONG><a name="[d5]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[b]"></a>GPIOPortB_Handler</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, main.o(.text.GPIOPortB_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = GPIOPortB_Handler &rArr; __aeabi_dmul
+<P><STRONG><a name="[b]"></a>GPIOPortB_Handler</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, main.o(.text.GPIOPortB_Handler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = GPIOPortB_Handler &rArr; Uart_SendNumber &rArr; Uart_Transmit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendNumber
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendString
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Elapsed_MC
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stop_TimerB
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start_TimerB
@@ -803,71 +805,69 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortB_Handler
 </UL>
 
-<P><STRONG><a name="[95]"></a>Timer1A_Init</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, timer1.o(.text.Timer1A_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
+<P><STRONG><a name="[97]"></a>Timer1A_Init</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, timer1.o(.text.Timer1A_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
 </UL>
 
-<P><STRONG><a name="[96]"></a>Timer1B_Init</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, timer1.o(.text.Timer1B_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
+<P><STRONG><a name="[98]"></a>Timer1B_Init</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, timer1.o(.text.Timer1B_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
 </UL>
 
-<P><STRONG><a name="[94]"></a>Timer1_Init</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, timer1.o(.text.Timer1_Init))
+<P><STRONG><a name="[96]"></a>Timer1_Init</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, timer1.o(.text.Timer1_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Timer1_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1B_Init
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1A_Init
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1B_Init
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1A_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[97]"></a>Trigger</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, main.o(.text.Trigger))
+<P><STRONG><a name="[99]"></a>Trigger</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, main.o(.text.Trigger))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Trigger
 </UL>
-<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9f]"></a>Uart_Init</STRONG> (Thumb, 198 bytes, Stack size 0 bytes, uart.o(.text.Uart_Init))
+<P><STRONG><a name="[9f]"></a>Uart_Init</STRONG> (Thumb, 196 bytes, Stack size 0 bytes, uart.o(.text.Uart_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[99]"></a>Uart_SendNumber</STRONG> (Thumb, 138 bytes, Stack size 32 bytes, uart.o(.text.Uart_SendNumber))
+<P><STRONG><a name="[95]"></a>Uart_SendNumber</STRONG> (Thumb, 138 bytes, Stack size 32 bytes, uart.o(.text.Uart_SendNumber))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = Uart_SendNumber &rArr; Uart_Transmit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Transmit
+<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortB_Handler
 </UL>
 
-<P><STRONG><a name="[9b]"></a>Uart_SendString</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, uart.o(.text.Uart_SendString))
+<P><STRONG><a name="[94]"></a>Uart_SendString</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, uart.o(.text.Uart_SendString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = Uart_SendString &rArr; Uart_Transmit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Transmit
+<BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortB_Handler
 </UL>
 
-<P><STRONG><a name="[9a]"></a>Uart_Transmit</STRONG> (Thumb, 46 bytes, Stack size 4 bytes, uart.o(.text.Uart_Transmit))
+<P><STRONG><a name="[9b]"></a>Uart_Transmit</STRONG> (Thumb, 46 bytes, Stack size 4 bytes, uart.o(.text.Uart_Transmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = Uart_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendNumber
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendString
+<BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendNumber
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendString
 </UL>
 
-<P><STRONG><a name="[98]"></a>delay</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, timer1.o(.text.delay))
-<BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trigger
+<P><STRONG><a name="[9a]"></a>delay</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, timer1.o(.text.delay))
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trigger
 </UL>
 
-<P><STRONG><a name="[85]"></a>main</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = main &rArr; Uart_SendNumber &rArr; Uart_Transmit
+<P><STRONG><a name="[85]"></a>main</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = main &rArr; Trigger
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendNumber
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_SendString
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Init
+<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_Init
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;portB_Init
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trigger
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer1_Init
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trigger
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortF_Init
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
 </UL>
