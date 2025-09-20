@@ -15,10 +15,12 @@ void SysTick_Init(){
 	NVIC_ST_CTRL_R = CLEAR_REG;	//Disable SysTick.
 	NVIC_ST_RELOAD_R = HALF_SEC - 1;	// Load HALF_SEC .
 	NVIC_ST_CURRENT_R = CLEAR_REG;	// Clear current value.
-	NVIC_ST_CTRL_R = EN_SYSTICK;	// Start timer, use external clk, enable interupt.
+  NVIC_ST_CTRL_R = EN_SYSTICK;	// Start timer, use external clk, enable interupt.
 	
 
 }
+
+
 
 
 //void SysTick_Handler(void){
