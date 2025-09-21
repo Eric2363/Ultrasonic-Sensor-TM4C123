@@ -13,9 +13,9 @@ pin B5 output "Trigger".
 
 void portB_Init(){
 	
-	SYSCTL_RCGCGPIO_R |= PORTB_MASK;
+	SYSCTL_RCGCGPIO_R |= PORTB_MASK; // Activate PortB clock
 	
-	while((SYSCTL_RCGCGPIO_R) == 0){
+	while((SYSCTL_RCGCGPIO_R & PORTB_MASK) != PORTB_MASK){ // wait for clock to be ready
 	}
 	
 	GPIO_PORTB_DIR_R |= B5_MASK;// B5 as output

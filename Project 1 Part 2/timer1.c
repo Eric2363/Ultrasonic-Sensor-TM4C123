@@ -12,6 +12,8 @@ Timer 1A Config: 16bit mode, One shot, down counter
 
 void Timer1_Init(){
 	SYSCTL_RCGCTIMER_R |= TIMER1;      	// Activate TIMER1
+	while((SYSCTL_RCGCTIMER_R & TIMER1) != TIMER1){}// wait for timer to activate
+		
 	TIMER1_CFG_R = MODE_16bit;
 	Timer1A_Init();
 	Timer1B_Init();

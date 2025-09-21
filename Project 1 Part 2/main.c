@@ -27,16 +27,7 @@ the onboard TM4C123 LED's depending on distance.
 
 uint32_t distance;
 int done;
-bool blinkRED;
-
-void Trigger(void){
-		GPIO_PORTB_DATA_R |= 0x20;
-		delay();
-		GPIO_PORTB_DATA_R &=~ 0x20;
-		delay();
-		
-}
-
+void Trigger(void);
 
 
 
@@ -49,27 +40,30 @@ int main(void){
 	Uart_Init();
 	SysTick_Init();
 	
-	
-	
 	while(1){
 		
 		done = 0;
 		
 		Trigger();
 		while(!done){}; // wait until distance calculation is done
-		
-		//LED logic
-		
-			
-		
-		
+	
 	}
-
-
 	return 0;
 	
 }
 
+// Trigger Function
+//===============================================================================
+void Trigger(void){
+		GPIO_PORTB_DATA_R |= 0x20;
+		delay();
+		GPIO_PORTB_DATA_R &=~ 0x20;
+		delay();
+		
+}
+
+//Echo Recieved 
+//===============================================================================
 void GPIOPortB_Handler(void){
 
 	if(GPIO_PORTB_DATA_R & ECHO_VALUE){
@@ -84,7 +78,8 @@ void GPIOPortB_Handler(void){
 
 GPIO_PORTB_ICR_R = ECHO_VALUE;
 }
-
+//Switch 1 pressed
+//===============================================================================
 void GPIOPortF_Handler(void){
 
 	if(done){
@@ -96,6 +91,7 @@ void GPIOPortF_Handler(void){
 		GPIO_PORTF_ICR_R = SW1;
 	}
 }
+
 
 void SysTick_Handler(void){
     if(distance < 10){
