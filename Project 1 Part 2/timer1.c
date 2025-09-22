@@ -5,7 +5,7 @@ ORG: CSULB
 Class: CECS 347
 --------------------------
 Description: Enable the general purpose timer 1A to produce a 10us delay.
-Timer 1A Config: 16bit mode, One shot, down counter
+Timer 1A Config: 16bit mode, Periodic, down counter
 */
 
 #include "timer1.h"
@@ -25,20 +25,22 @@ void Timer1A_Init(void){
 
   TIMER1_CTL_R &=~ TIMER1A_MASK;       // Disable TIMER1 A during setup
   TIMER1_TAMR_R = PERIODIC_MODE;      // Periodic Mode, down-counter
-  TIMER1_TAILR_R = MAX_RELOAD;        // Reload value (16-bit max)
+//  TIMER1_TAILR_R = MAX_RELOAD;        // Reload value (16-bit max)
+	TIMER1_TAILR_R = ONE_MICRO_SEC_R;
   TIMER1_TAPR_R = PRESCALE;           // prescale = 0. Withing resoultion of 16 bits.
 	TIMER1_ICR_R = TIMER1A_MASK;				// Clear TIMER1A timeout flag
 
 }
 
-void delay(){ // 10 micro second delay
+void delay(uint32_t micro_sec){ // 10 micro second delay
 	
+	for(uint32_t i =0; i < micro_sec; i++){
     TIMER1_CTL_R |= TIMER1A_MASK;          // Start timer
 
     while((TIMER1_RIS_R & TIMER_RIS_TATORIS) == 0); // Wait
 	
     TIMER1_ICR_R = TIMER1A_MASK;       // Clear flag
-	
+	}
 }
 
 // Timer B Setup
@@ -52,7 +54,7 @@ void Timer1B_Init(){ // 50ms counting
 	TIMER1_ICR_R = TIMER1B_MASK;		// Clear timer flag
 	
 }
-//Stop Timer B
+
 void Start_TimerB(void){
 	TIMER1_TBILR_R = TIMERB_RELOAD;	// Fresh reload
 	TIMER1_CTL_R |= TIMER1B_MASK;		// Start Timer B

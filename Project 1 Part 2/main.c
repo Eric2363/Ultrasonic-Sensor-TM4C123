@@ -19,12 +19,10 @@ the onboard TM4C123 LED's depending on distance.
 #include "Uart.h"
 
 #define RED_LED 0x02
-
-
 #define ECHO_VALUE 0x10
 #define MC_LEN 0.0625
 #define SOUND_SPEED 0.0343
-
+#define PIN_B5_MASK 0x20
 uint32_t distance;
 int done;
 void Trigger(void);
@@ -45,6 +43,8 @@ int main(void){
 		done = 0;
 		
 		Trigger();
+		Trigger();
+		
 		while(!done){}; // wait until distance calculation is done
 	
 	}
@@ -55,10 +55,11 @@ int main(void){
 // Trigger Function
 //===============================================================================
 void Trigger(void){
-		GPIO_PORTB_DATA_R |= 0x20;
-		delay();
-		GPIO_PORTB_DATA_R &=~ 0x20;
-		delay();
+		GPIO_PORTB_DATA_R &=~ PIN_B5_MASK; // Trigger low
+		delay(2); // 2us delay
+		GPIO_PORTB_DATA_R |= PIN_B5_MASK;	//Trigger high
+		delay(10);	//10us delay
+		GPIO_PORTB_DATA_R &=~ PIN_B5_MASK; // Trigger low
 		
 }
 
@@ -83,12 +84,21 @@ GPIO_PORTB_ICR_R = ECHO_VALUE;
 void GPIOPortF_Handler(void){
 
 	if(done){
-		GPIO_PORTF_DATA_R ^=BLUE;
-		Uart_SendString("Distance: ");
-		Uart_SendNumber(distance);
-		Uart_SendString("cm\r\n");
+		if(distance < 100){
+			Uart_SendString(" The Current distance is ");
+			Uart_SendNumber(distance);
+			Uart_SendString("cm\r\n");
 
-		GPIO_PORTF_ICR_R = SW1;
+			GPIO_PORTF_ICR_R = SW1;
+		}
+		else{
+			Uart_SendString(" The Current distance is ");
+			//Uart_SendNumber(distance);
+			Uart_SendString("OUT OF RANGE.\r\n");
+			GPIO_PORTF_ICR_R = SW1;
+			
+		}
+		
 	}
 }
 
