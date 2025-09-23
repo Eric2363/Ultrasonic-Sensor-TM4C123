@@ -21,6 +21,21 @@ Timer 1A Config: 16bit mode, One shot, down counter
 // Timer A : 10us delay
 //====================================================
 #define TIMER1A_MASK 0x00000001
+/*
+160 = 10us * 16MHz
+
+160 < 65,535, fits inside a 16bit timer so no prescale needed.
+Prescale = 0
+
+160 = (0*65,536) + Reload + 1
+160 = Reload + 1
+160 -1 = Reload
+
+159 = Reload
+0 = Prescale
+This will make 10us
+*/
+
 #define MAX_RELOAD 159
 #define PRESCALE 0
 
@@ -28,13 +43,46 @@ Timer 1A Config: 16bit mode, One shot, down counter
 // Timer B : Max count time of 50ms
 //====================================================
 #define TIMER1B_MASK 	0x00000100
+
+/*
+total ticks for 50ms
+800,000 = 50ms * 16MHz
+Total Ticks = (Prescale * 65,535 +1) + Reload +1
+try prescale 12
+800,000 = (12 * 65,536) + Reload +1
+800,000 = 786,432 + Reload + 1
+800,000 = 786,433 + Reload
+800,000 - 786,433 = Reload
+
+13,567 = Reload
+12 = Prescale  
+
+this will makes 50ms
+*/
+
 #define TIMERB_RELOAD 13567
 #define PRESCALE_B		12
+
+
+
+/* 1 micro sec 
+total ticks for 1us
+16 = 1us * 16MHz
+16 < 65,535, fits in 16bit timer so no prescale needed.
+16 = (0 * 65,535 +1) + Reload +1
+16 = Reload + 1
+16 - 1 = Reload
+15 = Reload
+Prescale = 0
+This will make 1us
+*/
+#define ONE_MICRO_SEC_R 15
+#define ONE_MICRO_SEC_P 0
 
 void Timer1_Init(void);
 void Timer1A_Init(void);
 void Timer1B_Init(void);
-void delay();
+void delay(uint32_t micro_sec);
 void Start_TimerB(void);
 void Stop_TimerB(void);
 uint32_t Get_Elapsed_MC(void);
